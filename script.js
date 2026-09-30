@@ -86,12 +86,14 @@ document.addEventListener("visibilitychange", function() {
 });
 
 /* =========================
-   CUENTAS REGRESIVAS (ESPAÑA Y LOCAL)
-   Apunta al mismo instante exacto: 00:00 AM en España del 1 de octubre
+   CUENTAS REGRESIVAS (ESPAÑA Y LOCAL INDEPENDIENTES)
 ========================= */
 
-const objetivoEspanaStr = "2026-10-01T00:00:00+02:00"; // 00:00 AM en España (1 de oct)
-const objetivoEcuadorStr = "2026-09-30T17:00:00-05:00"; // 17:00 PM en Ecuador (30 de sep)
+// España: 00:00 AM del 1 de octubre de 2026 en España
+const objetivoEspanaStr = "2026-10-01T00:00:00+02:00";
+
+// Ecuador: 00:00 AM del 1 de octubre de 2026 en Ecuador (mostrando sus propias horas restantes)
+const objetivoEcuadorStr = "2026-10-01T00:00:00-05:00";
 
 function calcularTiempoRestanteZona(isoStringObjetivo) {
     const objetivoMs = new Date(isoStringObjetivo).getTime();
@@ -122,7 +124,7 @@ let localTerminada = false;
 let sorpresaDesbloqueada = false;
 
 function actualizarContadores() {
-    // 1. Reloj de España (Pantalla 2)
+    // 1. Reloj de España (Pantalla 2) - Apunta a su medianoche
     const tEspana = calcularTiempoRestanteZona(objetivoEspanaStr);
     espanaTerminada = tEspana.finalizado;
 
@@ -136,7 +138,7 @@ function actualizarContadores() {
     if (elM) elM.textContent = tEspana.minutos;
     if (elS) elS.textContent = tEspana.segundos;
 
-    // 2. Reloj Local / Ecuador (Pantalla 7)
+    // 2. Reloj Local / Ecuador (Pantalla 7) - Apunta a su propia medianoche (faltarán ~7 horas)
     const tLocal = calcularTiempoRestanteZona(objetivoEcuadorStr);
     localTerminada = tLocal.finalizado;
 
@@ -150,12 +152,12 @@ function actualizarContadores() {
     if (elM2) elM2.textContent = tLocal.minutos;
     if (elS2) elS2.textContent = tLocal.segundos;
 
-    // Verificar si se ha llegado a la hora objetivo para desbloquear el botón
+    // Verificar desbloqueo: El botón se abre en cuanto España llega a su 00:00 (espanaTerminada)
     verificarDesbloqueoSorpresa();
 }
 
 function verificarDesbloqueoSorpresa() {
-    if (espanaTerminada || localTerminada) {
+    if (espanaTerminada) {
         sorpresaDesbloqueada = true;
 
         // Habilita visualmente el botón de sorpresa en la pantalla final
@@ -219,7 +221,7 @@ function abrirSorpresa() {
         const linkSorpresa = "https://fernandatayupanda11.github.io/01.10.26/";
         window.open(linkSorpresa, "_blank");
     } else {
-        alert("Aún tienes que esperar un poquito... La sorpresa se abrirá cuando sean las 00:00 en España del 1 de octubre. ♡");
+        alert("Aún tienes que esperar un poquito... La sorpresa se abrirá cuando sea medianoche en España. ♡");
     }
 }
 
