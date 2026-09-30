@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#07111f">
+
+    <title>Hasta entonces</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- ÍCONOS PWA PARA PANTALLA DE INICIO (ANDROID E IPHONE) -->
+    <link rel="icon" type="image/jpeg" href="img/icon-192.jpeg">
+    <link rel="shortcut icon" type="image/jpeg" href="img/icon-192.jpeg">
+    <link rel="apple-touch-icon" href="img/icon-192.jpeg">
+</head>
+
+<body>
+
+<!-- AUDIO DE FONDO (CON ATRIBUTOS DE REPRODUCCIÓN EN LÍNEA) -->
+<audio id="musicaFondo" loop preload="auto" playsinline webkit-playsinline>
+    <source src="musica.mpeg" type="audio/mpeg">
+</audio>
+
+<!-- CONTROL FLOTANTE DE MÚSICA -->
+<button id="btnAudio" class="btn-audio-control" onclick="alternarAudio()" aria-label="Control de Audio">🔊</button>
+
+<main class="app-container">
+
+    <!-- PANTALLA 1: INICIO (fondo1.jpeg) -->
+    <section id="inicio" class="pantalla activa" style="background-image: url('img/fondo1.jpeg');">
+        <div class="tarjeta-contenido">
+            <div class="icono-simbolo">☾</div>
+            <h1>Tengo algo<br>preparado<br>para ti...</h1>
+            <p>pero tendrás que esperar<br>un poquito.</p>
+            <div class="separador">♡</div>
+            <button class="btn-principal" onclick="iniciarApp()">
+                Descubrir <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 2: CUENTA REGRESIVA ESPAÑA (fondo2.jpeg) -->
+    <section id="cuenta" class="pantalla" style="background-image: url('img/fondo2.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('inicio')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="pequeno-titulo">PARA TI</div>
+            <h2>¿Cuánto falta?</h2>
+            <p>para que llegue<br>ese momento (España)...</p>
+
+            <!-- ANILLO CIRCULAR DE TIEMPO ESPAÑA -->
+            <div class="reloj-circulo">
+                <div class="tiempo-contenido">
+                    <div class="tiempo-valores">
+                        <span id="dias">00</span> : <span id="horas">00</span> : <span id="minutos">00</span> : <span id="segundos">00</span>
+                    </div>
+                    <div class="tiempo-etiquetas">
+                        <span>DÍAS</span>
+                        <span>HORAS</span>
+                        <span>MIN</span>
+                        <span>SEG</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-principal" onclick="mostrarPantalla('horarios')">
+                Seguir esperando <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 3: HORARIOS - BILBAO / ECUADOR (fondo3.jpeg) -->
+    <section id="horarios" class="pantalla" style="background-image: url('img/fondo3.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('cuenta')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="icono-simbolo">♡</div>
+            <h2>Aunque estemos lejos...</h2>
+            <p>estamos en el mismo tiempo,<br>esperando el mismo momento.</p>
+
+            <div class="contenedor-lugares">
+                <!-- TARJETA BILBAO -->
+                <div class="tarjeta-lugar">
+                    <div class="wrapper-img">
+                        <img src="img/bilbao.png" alt="Bilbao" loading="lazy">
+                    </div>
+                    <div class="info-lugar">
+                        <span class="bandera">🇪🇸</span>
+                        <div class="texto-lugar">
+                            <b>Bilbao</b>
+                            <strong id="horaEspana">--:--</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETA ECUADOR -->
+                <div class="tarjeta-lugar">
+                    <div class="wrapper-img">
+                        <img src="img/ecuador.png" alt="Ecuador" loading="lazy">
+                    </div>
+                    <div class="info-lugar">
+                        <span class="bandera">🇪🇨</span>
+                        <div class="texto-lugar">
+                            <b>Ecuador</b>
+                            <strong id="horaEcuador">--:--</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-principal" onclick="mostrarPantalla('mensaje')">
+                Continuar <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 4: MIENTRAS ESPERAS (fondo4.jpeg) -->
+    <section id="mensaje" class="pantalla" style="background-image: url('img/fondo4.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('horarios')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="pequeno-titulo">MIENTRAS ESPERAS</div>
+            <div class="carta-mensaje">
+                <div class="wrapper-img-carta">
+                    <img src="img/fondo4.jpeg" alt="Recordatorio" loading="lazy">
+                </div>
+                <p class="mensaje-distancia">
+                    Solo quería dejarte algo que te recuerde que la distancia no hace que te sienta menos cerca. ♡
+                </p>
+                <div class="separador-corazon">— — — ♡ — — —</div>
+            </div>
+            <button class="btn-principal" onclick="mostrarPantalla('cancion')">
+                Hay algo más <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 5: CANCIÓN SPOTIFY (fondo5.jpeg) -->
+    <section id="cancion" class="pantalla" style="background-image: url('img/fondo5.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('mensaje')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="pequeno-titulo">UNA CANCIÓN PARA TI</div>
+            <div class="musica-card">
+                <div class="portada-musica">♫</div>
+                <div class="musica-info">
+                    <span class="musica-label">PARA ESCUCHAR MIENTRAS ESPERAS</span>
+                    <h2>Tengo una canción<br>para ti.</h2>
+                    <p>Escúchala mientras esperas...</p>
+                </div>
+                <button class="btn-spotify" onclick="abrirSpotify()">
+                    <span>▶</span> Escuchar
+                </button>
+            </div>
+            <button class="btn-secundario" onclick="mostrarPantalla('secreto')">
+                Continuar <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 6: UN PEQUEÑO SECRETO (fondo6.jpeg) -->
+    <section id="secreto" class="pantalla" style="background-image: url('img/fondo6.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('cancion')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="icono-simbolo">✦</div>
+            <div class="pequeno-titulo">UN PEQUEÑO SECRETO</div>
+            <h2>Pss...</h2>
+            <p>¿De verdad pensabas<br>que ya estaba todo?</p>
+            <div class="separador-linea"></div>
+            <p class="secreto-final">Todavía tendrás que<br>esperar un poquito. ♡</p>
+            <button class="btn-principal" onclick="mostrarPantalla('ultimas')">
+                Seguir <span>→</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 7: YA CASI - ECUADOR (fondo7.jpeg) -->
+    <section id="ultimas" class="pantalla" style="background-image: url('img/fondo7.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('secreto')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="pequeno-titulo">YA CASI</div>
+            <div class="icono-simbolo">♡</div>
+            <h2>Ya casi...</h2>
+            <p>Solo un poquito más<br>y llegará el momento (Ecuador).</p>
+
+            <!-- CONTADOR PLANO LOCAL -->
+            <div class="contador-grid">
+                <div class="caja-tiempo">
+                    <strong id="dias2">00</strong>
+                    <small>DÍAS</small>
+                </div>
+                <div class="caja-tiempo">
+                    <strong id="horas2">00</strong>
+                    <small>HORAS</small>
+                </div>
+                <div class="caja-tiempo">
+                    <strong id="minutos2">00</strong>
+                    <small>MIN</small>
+                </div>
+                <div class="caja-tiempo">
+                    <strong id="segundos2">00</strong>
+                    <small>SEG</small>
+                </div>
+            </div>
+
+            <p class="frase-espera">Gracias por esperar conmigo. ♡</p>
+            <button class="btn-principal" onclick="mostrarPantalla('final')">
+                Esperar <span>♡</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- PANTALLA 8: FINAL (fondo8.jpeg) -->
+    <section id="final" class="pantalla" style="background-image: url('img/fondo8.jpeg');">
+        <button class="btn-regresar" onclick="mostrarPantalla('ultimas')">←</button>
+        <div class="tarjeta-contenido">
+            <div class="icono-simbolo">☾</div>
+            <div class="pequeno-titulo">HASTA ENTONCES</div>
+            <h1>Esto apenas<br>comienza.</h1>
+            <p>Guarda un poquito de paciencia...<br>algunas cosas bonitas<br>empiezan mucho antes de suceder.</p>
+            <div class="separador">♡</div>
+
+            <button class="btn-principal" onclick="confirmarSalida()">
+                Salir ✕
+            </button>
+
+            <!-- BOTÓN DESCUBRIR SORPRESA (BLOQUEADO HASTA QUE LLEGUE LA HORA) -->
+            <button id="btnSorpresa" class="btn-secundario" onclick="abrirSorpresa()" style="margin-top: 10px; opacity: 0.5; pointer-events: none;" disabled>
+                Descubrir sorpresa
+            </button>
+        </div>
+
+        <!-- VENTANA EMERGENTE CENTRADA -->
+        <div id="modalSalir" class="modal-overlay">
+            <div class="modal-card">
+                <h3>¿Seguro que quieres salir?</h3>
+                <div class="modal-acciones">
+                    <button class="btn-modal btn-cancelar" onclick="cancelarSalida()">No</button>
+                    <button class="btn-modal btn-confirmar" onclick="ejecutarSalida()">Sí</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 9: ZONA OSCURA PARA CIERRE -->
+    <section id="pantallaCierre" class="pantalla" style="background-color: #000000; justify-content: center; align-items: center;">
+        <div class="tarjeta-contenido" style="text-align: center;">
+            <h1 style="color: #fff; font-size: 1.5rem;">Hasta pronto... ♡</h1>
+            <p style="color: #888; margin-top: 10px;">Puedes cerrar la pestaña o la app con tranquilidad.</p>
+        </div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+
+</html>
